@@ -7,6 +7,7 @@ import Patients from '../Views/Patients'
 import firebase from 'firebase';
 import Header from '../components/Header/Header'
 import { Pane } from 'evergreen-ui'
+import SideNav from '../components/SideNav'
 
 
 export default class LoggedIn extends Component {
@@ -26,15 +27,10 @@ export default class LoggedIn extends Component {
         return (
             <Router>
                 <Space.ViewPort>
-                    <Space.Left size="15%" scrollable={true}>
+                    <Space.Left size="16%" scrollable={true}>
                         <div className="nav">
-                            <Space.Top size="10%">
-                                <Pane display="flex" height="100%" alignItems="center" justifyContent="center">
-                                    <div className="brand">Pintox</div>
-                                </Pane>
-                            </Space.Top>
                             <Space.Fill>
-                                Nav
+                                <SideNav numAppointments={10}/>
                             </Space.Fill>
                         </div>
                     </Space.Left>

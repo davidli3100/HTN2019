@@ -47,3 +47,30 @@ code {
   box-shadow: 0 -1px 12px 2px whitesmoke;
   flex-direction: column;
 }
+
+.sidenav__list-item {
+  padding: 20px 20px 20px 40px;
+  color: black;
+  list-style-type: none;
+  outline: none;
+}
+
+.sidenav__list-item:hover {
+  background-color: rgba(242, 243, 249, 0.8);
+  cursor: pointer;
+}
+
+.sidenav-link {
+  text-decoration: none
+}
+
+.sidenav-link > h2{
+  text-decoration: none;
+  color:#234361;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sidenav__list-item > svg {
+  fill: #234361 !important;
+}
