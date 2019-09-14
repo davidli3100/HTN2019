@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import Chart from 'react-apexcharts'
-
+    
 window.Apex = {
     stroke: {
       width: 3
@@ -16,6 +16,16 @@ window.Apex = {
   };
 
 export default class SparklineWithText extends Component {
+
+
+    componentDidReceiveProps() {
+        this.setState({
+            seriesTopSpark1: [{
+                data: this.props.sparkLineData ? this.props.sparkLineData : [0]
+            }]
+        })
+    }
+
     constructor(props) {
         super(props)
 
@@ -76,7 +86,7 @@ export default class SparklineWithText extends Component {
                   min: 0
                 },
                 title: {
-                  text: this.props.sparkLineData[this.props.sparkLineData.length-1],
+                  text: this.props.money ? '$' + this.props.sparkLineData[this.props.sparkLineData.length-1] : this.props.sparkLineData[this.props.sparkLineData.length-1],
                   offsetX: 3,
                   offsetY: 5,
                   style: {
@@ -87,7 +97,7 @@ export default class SparklineWithText extends Component {
                   }
                 },
                 subtitle: {
-                  text: 'Open Appointments',
+                  text: this.props.title,
                   offsetX: 3,
                   offsetY: 33  ,
                   style: {

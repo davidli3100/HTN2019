@@ -32,7 +32,29 @@ export default class Dashboard extends Component {
             res.forEach((doc) => {
                 numAppointments.push(doc.data().totalAppointments)
             })
-            this.setState({numAppointmentsAccumulated: numAppointments, loading: false}, console.log(this.state))
+            this.setState({numAppointmentsAccumulated: numAppointments}, console.log(this.state))
+        }, (err) => {
+            console.log(err)
+        })
+
+        db.collection("statistics").doc('appointments').collection('completedAppointments').orderBy("timestamp", "asc")
+        .onSnapshot((res) => {
+            var completedAppointments= [];
+            res.forEach((doc) => {
+                completedAppointments.push(doc.data().totalCompleted)
+            })
+            this.setState({completedAppointments: completedAppointments}, console.log(this.state))
+        }, (err) => {
+            console.log(err)
+        })
+        
+        db.collection("statistics").doc('appointments').collection('totalRevenue').orderBy("timestamp", "asc")
+        .onSnapshot((res) => {
+            var totalRevenue= [];
+            res.forEach((doc) => {
+                totalRevenue.push(doc.data().totalRevenue)
+            })
+            this.setState({totalRevenue: totalRevenue, loading: false}, console.log(this.state))
         }, (err) => {
             console.log(err)
         })
@@ -51,9 +73,9 @@ export default class Dashboard extends Component {
                             console.log(JSON.stringify(value))
                         }}
                     </FirestoreDocument> */}
-                    <CustomCard><SparklineWithText title="Open Appointments" numAppointments={this.state.numAppointments} sparkLineData={this.state.numAppointmentsAccumulated} /></CustomCard>
-                    <CustomCard></CustomCard>
-                    <CustomCard>Daily Revenue</CustomCard>
+                    <CustomCard><SparklineWithText title="Open Appointments" sparkLineData={this.state.numAppointmentsAccumulated} /></CustomCard>
+                    <CustomCard><SparklineWithText title="Completed Appointments" sparkLineData={this.state.completedAppointments} /></CustomCard>
+                    <CustomCard><SparklineWithText title="Daily Revenue" money={true} sparkLineData={this.state.totalRevenue} /></CustomCard>
                 </div>
             </div>
         )
