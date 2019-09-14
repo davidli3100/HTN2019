@@ -5,6 +5,8 @@ import {FirebaseAuthProvider, IfFirebaseAuthed, IfFirebaseUnAuthed, FirebaseAuth
 import * as config from './config'
 import LoggedIn from './screens/loggedin';
 import './index.css'
+import { Spinner, Heading } from 'evergreen-ui';
+import * as Space from 'react-spaces'
 
 class App extends Component {
 
@@ -32,7 +34,9 @@ class App extends Component {
                 return <LoggedIn user={user}/>
               }
               else {
-                return this.state.loading ? <div>Loading</div> :       <button
+                return this.state.loading ? <div className="spinner"><Spinner size={45}/><Heading paddingTop={12} size={400} className="loading-text">Loading...</Heading></div>
+                : 
+                <button
                 onClick={() => {
                   const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
                   firebase.auth().signInWithPopup(googleAuthProvider);

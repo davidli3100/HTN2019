@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { Heading } from 'evergreen-ui'
 
 export default class Dashboard extends Component {
     constructor(props) {
@@ -11,8 +12,8 @@ export default class Dashboard extends Component {
 
     render() {
         return (
-            <div>
-                Dashboard View
+            <div className="dashboard-container">
+                <Heading size={700}>Overview</Heading>
             </div>
         )
     }

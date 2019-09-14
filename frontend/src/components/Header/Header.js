@@ -14,6 +14,7 @@ export default class Header extends Component {
                         <Menu>
                         <Menu.Group>
                             <Menu.Item icon="log-out" onSelect={() => this.props.handleLogout()}>Logout</Menu.Item>
+                            <Menu.Item icon="settings" onSelect={() => alert('settings opened')}>Settings</Menu.Item>
                         </Menu.Group>
                         </Menu>
                     }

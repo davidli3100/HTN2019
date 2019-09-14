@@ -77,14 +77,14 @@ export default class SideNav extends Component {
                         </Heading>
                         </NavLink>
                     </Menu.Item>
-                    <Menu.Item id="users-link" icon="people" className="sidenav__list-item"
+                    <Menu.Item id="patients-link" icon="people" className="sidenav__list-item"
                      onSelect={() => {
-                        this.setState({selected: 'users'})
-                        window.location = "/users"
+                        this.setState({selected: 'patients'})
+                        window.location = "/patients"
                     }}
                     >
-                        <NavLink className="sidenav-link" exact activeClassName="active-link users--active--link" to="/users">
-                        <Heading size={400}>Users</Heading>
+                        <NavLink className="sidenav-link" exact activeClassName="active-link patients--active--link" to="/patients">
+                        <Heading size={400}>Patients</Heading>
                         </NavLink>
                     </Menu.Item>
                 </Menu.Group>

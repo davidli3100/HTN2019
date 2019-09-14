@@ -35,24 +35,28 @@ code {
 }
  
 .brand {
-  height: 42px;
+  /* height: 42px; */
+  height: 8vh;
   justify-content: center;
   align-items: center;
   display: flex;
+  background-color: dodgerblue;
+  color: white !important
 }
 
 .nav {
   background-color: white !important;
   height: 100%;
-  box-shadow: 0 -1px 12px 2px whitesmoke;
+  box-shadow: 0 -1px 12px 2px gray;
   flex-direction: column;
 }
 
 .sidenav__list-item {
-  padding: 20px 20px 20px 40px;
+  padding: 24px 20px 24px 40px;
   color: black;
   list-style-type: none;
   outline: none;
+  
 }
 
 .sidenav__list-item:hover {
@@ -73,4 +77,24 @@ code {
 
 .sidenav__list-item > svg {
   fill: #234361 !important;
+}
+
+#root > div > div > div > div > div.spaces-space.anchor-left.scrollable > div > div > div > div > nav > div {
+  padding-top: 0px
+}
+
+.spinner {
+  display: flex;
+  align-items: center;
+  justify-content: center;;
+  height: 100vh;
+  flex-direction: column
+}
+
+.loading-text {
+  color: #7B8B9A  !important
+}
+
+.dashboard-container {
+  padding: 0px 20px
 }
