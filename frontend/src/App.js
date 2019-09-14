@@ -1,24 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import firebase from "firebase/app";
+import "firebase/auth";
+import {FirebaseAuthProvider, IfFirebaseAuthed, IfFirebaseUnAuthed, FirebaseAuthConsumer} from "@react-firebase/auth"
+import * as config from './config'
+import LoggedIn from './screens/loggedin';
 
 function App() {
+  console.log(config)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <FirebaseAuthProvider firebase={firebase} {...config.config}>
+        <IfFirebaseAuthed>
+          <FirebaseAuthConsumer>
+            {({ user }) => {
+              return <LoggedIn user={user}/>
+            }}
+            </FirebaseAuthConsumer>        
+          </IfFirebaseAuthed>
+        <IfFirebaseUnAuthed>
+          {/* replace with signin screen */}
+          <button onClick={() => {
+            const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+            firebase.auth().signInWithPopup(googleAuthProvider);
+          }}>
+            Sign in with Google
+          </button>
+        </IfFirebaseUnAuthed>
+      </FirebaseAuthProvider>
     </div>
   );
 }
