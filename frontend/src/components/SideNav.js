@@ -53,7 +53,7 @@ export default class SideNav extends Component {
 
             <Menu>
             <Heading className="brand" size={600}>
-                Pintox
+                Dr. Dash
             </Heading>
                 <Menu.Group>
                     <Menu.Item icon="home" id="dashboard-link" className="sidenav__list-item" onSelect={() => {
