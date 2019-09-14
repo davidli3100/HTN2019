@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #f8f9ff;
 }
 
 code {
@@ -19,6 +20,7 @@ code {
   flex-direction: row;
   justify-content: flex-end;
   align-items: center;
+  background-color: #f8f9ff;
 }
 
 .profileButton {
@@ -32,3 +34,16 @@ code {
   outline: 0 !important;
 }
  
+.brand {
+  height: 42px;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+
+.nav {
+  background-color: white !important;
+  height: 100%;
+  box-shadow: 0 -1px 12px 2px whitesmoke;
+  flex-direction: column;
+}
