@@ -116,3 +116,35 @@ code {
 .apexcharts-subtitle-text {
   font-weight: 500
 }
+
+.appointments-overview-table {
+  margin-top: 30px
+}
+
+.appointments-header  {
+  margin-bottom: 20px !important
+}
+
+.appointments-header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  height: 50px
+}
+
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_1snwwdt.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦b-btm_1px-solid-E4E7EB.📦bg_1eozcqw.📦dspl_flex.📦flx-srnk_0.📦pr_17px.📦h_32px.📦bg-clr_1070CA.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦box-szg_border-box.css-nil > div > span {
+  color: #fff !important;
+}
+
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_1snwwdt.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div:nth-child(2) {
+  padding-left: 0px
+}
+
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_1snwwdt.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div:nth-child(3) {
+  padding-left: 0px;
+}
+
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_1snwwdt.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div > span {
+  font-size: 14px !important
+}

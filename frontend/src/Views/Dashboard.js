@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
-import { Heading, Spinner } from 'evergreen-ui'
+import { Heading, Spinner, Button, Card } from 'evergreen-ui'
 import CustomCard from '../components/Dashboard/Card'
 import firebase from 'firebase'
 import * as config from '../config'
 import { FirestoreDocument } from '@react-firebase/firestore'
 import SparklineWithText from '../components/Dashboard/Chart'
+import CustomTable from '../components/Dashboard/Table'
 
 if(!firebase.apps.length) {
     firebase.initializeApp({
@@ -14,6 +15,7 @@ if(!firebase.apps.length) {
 
 const db = firebase.firestore()
 
+
 export default class Dashboard extends Component {
 
     constructor(props) {
@@ -22,6 +24,29 @@ export default class Dashboard extends Component {
         this.state = {
             loading: true
         }
+    }
+
+    _parseTime( ms ) {
+        //convert ms to date
+        var d = new Date(ms);
+        var ap;
+        var minutes = d.getMinutes();
+        if(d.getHours() > 11) {
+            return d.getHours()-12 + ':'+ minutes + ' PM'
+        } else if (d.getHours() === 12) {
+            return d.getHours() + ':' + minutes + ' PM'
+        } else {
+            return d.getHours() + ':' + minutes + ' AM'
+        }
+    }
+
+    _parseDate(ms) {
+        var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
+    }
+    
+
+    _appointmentParser = (appointment) => {
+        
     }
 
     componentDidMount() {
@@ -54,7 +79,18 @@ export default class Dashboard extends Component {
             res.forEach((doc) => {
                 totalRevenue.push(doc.data().totalRevenue)
             })
-            this.setState({totalRevenue: totalRevenue, loading: false}, console.log(this.state))
+            this.setState({totalRevenue: totalRevenue}, console.log(this.state))
+        }, (err) => {
+            console.log(err)
+        })
+
+        db.collection("appointments").where("startTime", ">=", firebase.firestore.Timestamp.now()).orderBy("startTime", "asc")
+        .onSnapshot((res) => {
+            var allAppointments= [];
+            res.forEach((doc) => {
+                allAppointments.push(this._appointmentParser(doc.data()))
+            })
+            this.setState({allAppointments: allAppointments, loading: false}, console.log(this.state))
         }, (err) => {
             console.log(err)
         })
@@ -76,6 +112,15 @@ export default class Dashboard extends Component {
                     <CustomCard><SparklineWithText title="Open Appointments" sparkLineData={this.state.numAppointmentsAccumulated} /></CustomCard>
                     <CustomCard><SparklineWithText title="Completed Appointments" sparkLineData={this.state.completedAppointments} /></CustomCard>
                     <CustomCard><SparklineWithText title="Daily Revenue" money={true} sparkLineData={this.state.totalRevenue} /></CustomCard>
+                </div>
+                <div className="appointments-overview-table">
+                    <div className="appointments-header-container">
+                        <Heading className="appointments-header" size={600}>Appointments</Heading>
+                        <Button appearance="primary" onClick={() => {window.location = "/appointments"}} intent="success">View all</Button>  
+                    </div>
+                    <Card elevation={2} backgroundColor="white" borderRadius={4} >
+                        <CustomTable appointments={this.state.allAppointments}/>
+                    </Card>
                 </div>
             </div>
         )

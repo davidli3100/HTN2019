@@ -17,15 +17,6 @@ window.Apex = {
 
 export default class SparklineWithText extends Component {
 
-
-    componentDidReceiveProps() {
-        this.setState({
-            seriesTopSpark1: [{
-                data: this.props.sparkLineData ? this.props.sparkLineData : [0]
-            }]
-        })
-    }
-
     constructor(props) {
         super(props)
 

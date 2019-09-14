@@ -19,7 +19,7 @@ export default class Header extends Component {
                         </Menu>
                     }
                     > 
-                    <Button className="profileButton" marginRight={28} appearance="minimal" iconAfter="chevron-down" height={42}>
+                    <Button className="profileButton" marginRight={20} appearance="minimal" iconAfter="chevron-down" height={42}>
                         <Avatar className="user-avatar" src={this.props.user.photoURL} padding={0} float="right" marginLeft={-10} marginRight={20} name={this.props.user.displayName} size={29}/>
                         <Heading className="user__name-text" size={400}>{this.props.user.displayName}</Heading>
                     </Button>
