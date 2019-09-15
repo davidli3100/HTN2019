@@ -208,22 +208,13 @@ def web_hooks(request):
             })
         else:
             if msg == "invalid time":
-                dialogflow_response = DialogflowResponse(
-                    "The time you specified is out of the working hour. Please select another time.")
+                dialogflow_response = DialogflowResponse("The time you specified is out of the working hour. Please select another time.")
+                dialogflow_response.expect_user_response = False
+                dialogflow_response.add(SystemIntent("Create Appointment - Time - hours"))
             else:
-                dialogflow_response = DialogflowResponse(
-                    "Sorry, the time you selected is unavailable. Please select another time.")
-            dialogflow_response.add(
-                OutputContexts("pintox-app", session_id, "Create Appointment - Time", 200,
-                               {
-                                   "Patient": docu_dict["Patient"],
-                                   "intend_date": str(docu_dict["intend_date"]),
-                                   "phone_number": docu_dict["phone_number"],
-                                   "Symptoms": docu_dict["Symptoms"]
-                               }
-                               )
-            )
-            dialogflow_response.add(SystemIntent("Create Appointment - Time"))
+                dialogflow_response = DialogflowResponse("Sorry, the time you selected is unavailable. Please select another time.")
+                dialogflow_response.expect_user_response = False
+                dialogflow_response.add(SystemIntent("Create Appointment - Time - failure"))
     else:
         dialogflow_response = DialogflowResponse("This is a text response from webhook.")
 
