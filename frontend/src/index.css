@@ -122,7 +122,8 @@ code {
 }
 
 .appointments-overview-table {
-  margin-top: 30px
+  margin-top: 30px;
+  margin-bottom: 30px
 }
 
 .appointments-header  {
