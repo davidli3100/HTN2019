@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { SideSheet, Pane, Tablist, Paragraph, Card, Heading, Tab, TextInput, Text, Small, Button, SelectMenu, IconButton  } from 'evergreen-ui';
+import { SideSheet, Pane, Tablist, Paragraph, Card, Heading, Tab, TextInput, Text, Small, Button, SelectMenu, IconButton, toaster  } from 'evergreen-ui';
+import { createInvoice, sendEmail } from '../../utils/freshbooks';
+import firebase from 'firebase'
 
 class Patient extends Component {
     render() {
@@ -42,6 +44,115 @@ class Invoicing extends Component {
         selectedBilling: "OHIP",
         patientEmail: '',
         totalPrice: 0
+    }
+
+    _sendInvoice = () => {
+
+        var d = new Date()
+        var month = d.getMonth()+1
+
+        if(month < 10) {
+            month = "0" + month
+        }
+
+        var tr = 0;
+        var ca = 0;
+
+        let invoiceBody = {
+            invoice : {
+                email: this.state.selectedBilling === "OHIP" || this.state.selectedBilling === "Insurance" ? "ohiptest@example.com" : this.state.patientEmail,
+                customerid: 15536,
+                create_date: d.getFullYear() + '-' + month + '-' + d.getDate(),
+                lines: [
+                    this.state.items.map((item) => {
+                        return ({
+                            type: 0,
+                            description: item.item,
+                            taxName1: "HST",
+                            taxAmount1: 13,
+                            name: item.item,
+                            qty: 1,
+                            unit_cost: {
+                                amount: item.price,
+                                code: "CAD"
+                            }
+                        })
+                    })
+                ]
+            }
+        }
+
+        let invoiceEmail = {
+            invoice: {
+                email_subject: "Dr Dash sent you an invoice (15536)",
+                email_recipients: this.state.selectedBilling === "Patient" ? [this.state.patientEmail] : '',
+                email_body: "",
+                action_email: true
+            }
+        }
+        console.log(invoiceBody)
+        createInvoice(
+            "https://api.freshbooks.com/accounting/account/Pdowla/invoices/invoices",
+            invoiceBody
+            ).then(data => {
+                console.log(data);
+                if(this.state.selectedBilling === "Patient") {
+                    sendEmail(
+                        "Pdowla",
+                        data.response.result.invoice.invoiceid,
+                        invoiceEmail
+                        ).then(res => {
+                            console.log(res)
+                        })
+                }
+            }).catch(err => console.log(err)).then(() => {
+                firebase.firestore().collection('statistics').doc('appointments').collection('totalRevenue').orderBy('timestamp', "desc").limit(1).get()
+                .then((res) => {
+                    res.forEach((doc) => {
+                        console.log(doc.data())
+                        tr = doc.data().totalRevenue
+                    })
+                }).then(() => {
+                    firebase.firestore().collection('statistics').doc('appointments').collection('completedAppointments').orderBy('timestamp', "desc").limit(1).get()
+                    .then((res) => {
+                        res.forEach((doc) => {
+                            console.log(doc.data())
+                            ca = doc.data().totalCompleted
+                        })
+                    })
+                    .then(() => {
+                        console.log(tr)
+                        firebase.firestore().collection('statistics').doc('appointments').collection('totalRevenue').doc().set({
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                            totalRevenue: (parseInt(tr) + parseInt(this.state.totalPrice))
+                        })
+                        .then(() => {
+                            firebase.firestore().collection('statistics').doc('appointments').collection('completedAppointments').doc().set({
+                                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                                totalCompleted: (parseInt(ca) + parseInt(1))
+                            })
+                            .then(() => {
+                                this.setState({
+                                    items: [],
+                                    tempItem: '',
+                                    tempPrice: '',
+                                    selectedBilling: "OHIP",
+                                    patientEmail: '',
+                                    totalPrice: 0
+                                })
+                                toaster.success(
+                                    'Invoice Sent'
+                                )
+                            })
+                        })
+                            
+                        
+                    }
+                    )
+                }
+                )                    
+                })
+        
     }
 
     render() {
@@ -141,7 +252,7 @@ class Invoicing extends Component {
                 </Pane>
                 <Pane alignSelf="flex-end" marginTop="auto" flexDirection="row" display="flex" width="100%" height={45} justifyContent="space-between" alignItems="center">
                     <Heading size={400}>Subtotal: ${this.state.totalPrice} </Heading> 
-                    <Button intent="success" appearance="default" >Send Invoice</Button>
+                    <Button onClick={() => this._sendInvoice()} intent="success" appearance="default" >Send Invoice</Button>
                 </Pane>
             </Pane>
         )
