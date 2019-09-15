@@ -1,26 +1,56 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react';
+import firebase from "firebase/app";
+import "firebase/auth";
+import {FirebaseAuthProvider, IfFirebaseAuthed, IfFirebaseUnAuthed, FirebaseAuthConsumer} from "@react-firebase/auth"
+import * as config from './config'
+import LoggedIn from './screens/loggedin';
+import './index.css'
+import { Spinner, Heading } from 'evergreen-ui';
+import * as Space from 'react-spaces'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      loading: true
+    }
+  }
+
+  componentDidMount() {
+    setTimeout(() => { 
+      this.setState({loading: false})
+    }, 500);
+  }
+
+  render() {
+    console.log(config)
+    return (
+      <div className="App">
+        <FirebaseAuthProvider firebase={firebase} {...config.config}>
+          <FirebaseAuthConsumer>
+            {({ user, isSignedIn }) => {
+              if(isSignedIn) {
+                return <LoggedIn user={user}/>
+              }
+              else {
+                return this.state.loading ? <div className="spinner"><Spinner size={45}/><Heading paddingTop={12} size={400} className="loading-text">Loading...</Heading></div>
+                : 
+                <button
+                onClick={() => {
+                  const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
+                  firebase.auth().signInWithPopup(googleAuthProvider);
+                }}
+              >
+                Sign in with Google
+              </button>
+              }
+            }}
+            </FirebaseAuthConsumer>        
+        </FirebaseAuthProvider>
+      </div>
+    );
+  }
 }
 
 export default App;
