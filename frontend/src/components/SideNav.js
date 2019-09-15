@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
-import { Menu, Icon, Heading, Pill} from 'evergreen-ui';
+import { Menu, Icon, Heading, Pill } from 'evergreen-ui';
 import {NavLink} from 'react-router-dom'
+import logo from '../logo.png'
 export default class SideNav extends Component {
 
     constructor() {
@@ -52,9 +53,9 @@ export default class SideNav extends Component {
         <Fragment>
 
             <Menu>
-            <Heading className="brand" size={600}>
-                Pintox
-            </Heading>
+            <div className="brand">
+                <img src={logo} className="brand-img" size={600}/>
+            </div>
                 <Menu.Group>
                     <Menu.Item icon="home" id="dashboard-link" className="sidenav__list-item" onSelect={() => {
                         this.setState({selected: 'dashboard'})

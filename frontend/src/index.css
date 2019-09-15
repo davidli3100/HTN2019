@@ -44,6 +44,10 @@ code {
   color: white !important
 }
 
+.brand-img {
+  height: 3vh
+}
+
 .nav {
   background-color: white !important;
   height: 100%;
@@ -96,5 +100,114 @@ code {
 }
 
 .dashboard-container {
-  padding: 0px 20px
+  height: 100%;
+  overflow-y: auto;
+  padding: 0px 20px;
+}
+
+.dashboard-content {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  grid-auto-rows: minmax(100px, 18vh);
+  grid-gap: 20px;
+}
+
+.overviewcard {
+  width: 90%;
+}
+
+.apexcharts-subtitle-text {
+  font-weight: 500
+}
+
+.appointments-overview-table {
+  margin-top: 30px;
+  margin-bottom: 30px
+}
+
+.appointments-header  {
+  margin-bottom: 20px !important
+}
+
+.appointments-header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-between;
+  height: 50px
+}
+
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_17bru36.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦b-btm_1px-solid-E4E7EB.📦bg_1eozcqw.📦dspl_flex.📦flx-srnk_0.📦pr_17px.📦h_45px.📦bg-clr_1e90ff.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦box-szg_border-box.css-nil > div > span {  color: #fff !important;
+  font-size: 14.1px
+}
+
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_17bru36.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div:nth-child(2) {
+  padding-left: 0px
+}
+
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_17bru36.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div:nth-child(3) {
+  padding-left: 0px;
+}
+
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_17bru36.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div > span {  
+  font-size: 14px !important
+}
+
+body > div:nth-child(9) > div > div > div > div.📦bs_kymczs.📦bg-clr_white.📦ovflw-y_auto.📦max-h_100vh.📦w_620px.📦h_100vh.📦dspl_flex.📦flx_1.📦flx-drct_column.📦box-szg_border-box.css-nil > div.📦bg_1vd85pq.📦flx_1.📦ovflw-y_scroll.📦pb_16px.📦pl_16px.📦pr_16px.📦pt_16px.📦box-szg_border-box.css-nil > div {
+  box-shadow: none
+}
+
+#panel-Invoicing {
+  background-color: ghostwhite
+}
+
+.brandName {
+  color: dodgerblue;
+  font-weight: 700
+}
+
+.loginIntro {
+  margin-top: 10vh !important;
+  font-size: 5vh !important;
+  font-weight: 400 !important;
+  margin-bottom: 30px !important
+}
+
+.loginSub {
+  font-size: 2.5vh !important;
+  color:  #c3c5d1 !important;
+  margin-left: 2px !important
+}
+
+.loginContainer {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+}
+
+.loginImage {
+  height: 100%;
+  width: 100%;
+  background-image: url('https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9');
+  background-repeat: no-repeat;
+  background-size: cover
+}
+
+.loginRight {
+  padding: 50px;
+  height: 40vh
+}
+
+.loginButton {
+  background-color: dodgerblue;
+  color: white !important;
+  padding: 13px 25px;
+  font-size: 2.5vh !important;
+  border-radius: 10px;
+  font-family: "SF UI Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-weight: 500;
+  outline: none;
+  box-shadow: none;
+  border: none
 }
