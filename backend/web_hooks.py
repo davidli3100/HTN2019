@@ -1,10 +1,12 @@
 import firebase_admin
+
 from firebase_admin import credentials
 from firebase_admin import firestore
 from flask import Flask
 from pydialogflow_fulfillment import DialogflowResponse, DialogflowRequest
 from pydialogflow_fulfillment.response import OutputContexts, SystemIntent
 from google.api_core.datetime_helpers import DatetimeWithNanoseconds
+
 import datetime
 
 app = Flask(__name__)
@@ -39,7 +41,7 @@ def check_time_validity(start_time: DatetimeWithNanoseconds, end_time: DatetimeW
     str_start_time = str(start_time.hour) + start_minute
     str_end_time = str(end_time.hour) + end_minute
     if not (appointment_start_time <= str_start_time < str_end_time <= appointment_end_time):
-        return False, ""
+        return False, "invalid time"
     docs = appointments_ref.where("startTime", ">",
                                   DatetimeWithNanoseconds(start_time.year, start_time.month, start_time.day,
                                                           tzinfo=datetime.timezone.utc)).where(
@@ -53,11 +55,11 @@ def check_time_validity(start_time: DatetimeWithNanoseconds, end_time: DatetimeW
             each_patient_end_time = each_patient_info["endTime"]
             if each_patient_start_time < start_time < each_patient_end_time or \
                     each_patient_start_time < end_time < each_patient_end_time:
-                return False, ""
+                return False, "unavailable time slot"
             if each_patient_start_time > start_time and each_patient_end_time < end_time:
-                return False, ""
+                return False, "unavailable time slot"
             if each_patient_start_time == start_time and each_patient_end_time == end_time:
-                return False, ""
+                return False, "unavailable time slot"
     return True, ""
 
 
@@ -95,16 +97,27 @@ def web_hooks(request):
 
     if dialogflow_request.get_intent_displayName() == "Create Appointment - User":
         _raw_user_name = dialogflow_request.get_paramter("person")
-        if isinstance(_raw_user_name, dict):
-            user_name = _raw_user_name["name"]
-        else:
-            user_name = ""
-            for e in _raw_user_name:
-                user_name += e["name"]
+        # if isinstance(_raw_user_name, dict):
+        #     user_name = _raw_user_name["name"]
+        # else:
+        #     if len(_raw_user_name) == 1:
+        #         if isinstance(_raw_user_name[0], str):
+        #             user_name = _raw_user_name[0]
+        #     else:
+        #         user_name = ""
+        #         i = len(_raw_user_name)
+        #         for e in _raw_user_name:
+        #             user_name += e["name"]
+        #             if i > 1:
+        #                 user_name += " "
+        #                 i -= 1
+
+        str_raw_user_name = str(_raw_user_name)
+        str_user_name = str_raw_user_name.strip("{").strip("}").strip("[").strip("]").strip(":").strip("'")
         temp_ref.document(session_id).set({
-            "name": user_name
+            "Patient": str_user_name
         })
-        dialogflow_response = DialogflowResponse("Hi {}! Did I get your name right?".format(user_name))
+        dialogflow_response = DialogflowResponse("Hi {}! Did I get your name right?".format(str_user_name))
 
     elif dialogflow_request.get_intent_displayName() == "Create Appointment - Phone":
         phone_number = dialogflow_request.get_paramter("phone-number")
@@ -116,7 +129,7 @@ def web_hooks(request):
     elif dialogflow_request.get_intent_displayName() == "Create Appointment - Purpose":
         purpose = dialogflow_request.get_paramter("purpose")
         temp_ref.document(session_id).update({
-            "purpose": purpose
+            "Symptoms": purpose
         })
         dialogflow_response = DialogflowResponse("Thank you. What date would you like to make this appointment on?")
 
@@ -124,7 +137,8 @@ def web_hooks(request):
         intend_date = dialogflow_request.get_paramter("date")
         if isinstance(intend_date, str):
             intend_date = datetime.datetime.fromisoformat(intend_date)
-            intend_date = DatetimeWithNanoseconds(intend_date.year, intend_date.month, intend_date.day, intend_date.hour, intend_date.minute, tzinfo=datetime.timezone.utc)
+            intend_date = DatetimeWithNanoseconds(intend_date.year, intend_date.month, intend_date.day,
+                                                  intend_date.hour, intend_date.minute)
         temp_ref.document(session_id).update({
             "intend_date": intend_date
         })
@@ -134,7 +148,9 @@ def web_hooks(request):
         docu_dict = temp_ref.document(session_id).get().to_dict()
         intend_date = docu_dict["intend_date"]
         if isinstance(intend_date, str):
-            intend_date = DatetimeWithNanoseconds.from_rfc3339(intend_date)
+            intend_date = datetime.datetime.fromisoformat(intend_date)
+            intend_date = DatetimeWithNanoseconds(intend_date.year, intend_date.month, intend_date.day,
+                                                  intend_date.hour, intend_date.minute)
         if check_date_validity(intend_date):
             dialogflow_response = DialogflowResponse(
                 "The date you specified is available. Please indicate a time interval (30 minutes) to book.")
@@ -151,6 +167,63 @@ def web_hooks(request):
                 OutputContexts("pintox-app", session_id, "Create Appointment - Date", 200,
                                {}))
             dialogflow_response.add(SystemIntent("Create Appointment - Date"))
+
+    elif dialogflow_request.get_intent_displayName() == "Create Appointment - Time":
+        time_period = dialogflow_request.get_paramter("time-period")
+        start_time, end_time = time_period["startTime"], time_period["endTime"]
+        if isinstance(start_time, str):
+            start_time = datetime.datetime.fromisoformat(start_time)
+            start_time = DatetimeWithNanoseconds(start_time.year, start_time.month, start_time.day,
+                                                 start_time.hour, start_time.minute)
+        if isinstance(end_time, str):
+            end_time = datetime.datetime.fromisoformat(end_time)
+            end_time = DatetimeWithNanoseconds(end_time.year, end_time.month, end_time.day,
+                                               end_time.hour, end_time.minute)
+        temp_ref.document(session_id).update({
+            "startTime": start_time,
+            "endTime": end_time
+        })
+        dialogflow_response = DialogflowResponse(
+            "Your time is from {} to {}. Is that correct?".format(start_time, end_time))
+
+    elif dialogflow_request.get_intent_displayName() == "Create Appointment - Time - yes":
+        docu_dict = temp_ref.document(session_id).get().to_dict()
+        start_time, end_time = docu_dict["startTime"], docu_dict["endTime"]
+        if isinstance(start_time, str):
+            start_time = datetime.datetime.fromisoformat(start_time)
+            start_time = DatetimeWithNanoseconds(start_time.year, start_time.month, start_time.day,
+                                                 start_time.hour, start_time.minute)
+        if isinstance(end_time, str):
+            end_time = datetime.datetime.fromisoformat(end_time)
+            end_time = DatetimeWithNanoseconds(end_time.year, end_time.month, end_time.day,
+                                               end_time.hour, end_time.minute)
+
+        res, msg = check_time_validity(start_time, end_time)
+        if res:
+            dialogflow_response = DialogflowResponse(
+                "The appointment has been booked. Would you like to book another?")
+            appointments_ref.document().set(docu_dict)
+            patients_ref.document(docu_dict["phone_number"]).set({
+                "name": docu_dict["Patient"]
+            })
+        else:
+            if msg == "invalid time":
+                dialogflow_response = DialogflowResponse(
+                    "The time you specified is out of the working hour. Please select another time.")
+            else:
+                dialogflow_response = DialogflowResponse(
+                    "Sorry, the time you selected is unavailable. Please select another time.")
+            dialogflow_response.add(
+                OutputContexts("pintox-app", session_id, "Create Appointment - Time", 200,
+                               {
+                                   "Patient": docu_dict["Patient"],
+                                   "intend_date": str(docu_dict["intend_date"]),
+                                   "phone_number": docu_dict["phone_number"],
+                                   "Symptoms": docu_dict["Symptoms"]
+                               }
+                               )
+            )
+            dialogflow_response.add(SystemIntent("Create Appointment - Time"))
     else:
         dialogflow_response = DialogflowResponse("This is a text response from webhook.")
 
