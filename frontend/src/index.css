@@ -149,5 +149,14 @@ code {
   padding-left: 0px;
 }
 
-#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_17bru36.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div > span {  font-size: 14px !important
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_17bru36.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div > span {  
+  font-size: 14px !important
+}
+
+body > div:nth-child(9) > div > div > div > div.📦bs_kymczs.📦bg-clr_white.📦ovflw-y_auto.📦max-h_100vh.📦w_620px.📦h_100vh.📦dspl_flex.📦flx_1.📦flx-drct_column.📦box-szg_border-box.css-nil > div.📦bg_1vd85pq.📦flx_1.📦ovflw-y_scroll.📦pb_16px.📦pl_16px.📦pr_16px.📦pt_16px.📦box-szg_border-box.css-nil > div {
+  box-shadow: none
+}
+
+#panel-Invoicing {
+  background-color: ghostwhite
 }

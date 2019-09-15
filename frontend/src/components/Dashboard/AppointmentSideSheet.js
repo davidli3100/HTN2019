@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { SideSheet, Pane, Tablist, Paragraph, Card, Heading, Tab } from 'evergreen-ui';
+import React, { Component, Fragment } from 'react';
+import { SideSheet, Pane, Tablist, Paragraph, Card, Heading, Tab, TextInput, Text, Small, Button, SelectMenu, IconButton  } from 'evergreen-ui';
 
 class Patient extends Component {
     render() {
@@ -8,6 +8,7 @@ class Patient extends Component {
             display="flex"
             alignItems="center"
             justifyContent="center"
+            width="100%"
             height="100%"
             >
                     Patient
@@ -33,15 +34,115 @@ class Symptoms extends Component {
 }
 
 class Invoicing extends Component {
+
+    state = {
+        items: [],
+        tempItem: '',
+        tempPrice: '',
+        selectedBilling: "OHIP",
+        patientEmail: '',
+        totalPrice: 0
+    }
+
     render() {
         return (
-            <Pane
-            display="flex"
-            alignItems="center"
-            justifyContent="center"
-            height="100%"
-            >
-                Invoicing
+            <Pane display="flex" height="100%" flexDirection="column">
+              <Pane
+                display="flex"
+                alignItems="flex-start"
+                justifyContent="center"
+                height="fit-content"
+                backgroundColor="#f9f9fb"
+                border="none"
+                marginBottom={15}
+                flexDirection="row"
+                >
+                    <Pane display="flex" flexDirection="column" width="30%" marginRight={10}>
+                        <Text><Small>Bill To</Small></Text>
+                        <SelectMenu
+                            hasFilter={false}
+                            title="Select Billing Account"
+                            options={["OHIP", "Patient", "Insurance"].map(label => ({ label, value: label }))}
+                            selected={this.state.selectedBilling}
+                            onSelect={item => this.setState({ selectedBilling: item.value })}
+                        >
+                            <Button>{this.state.selectedBilling || 'OHIP'}</Button>
+                        </SelectMenu>
+                    </Pane>
+                    <Pane display="flex" flexDirection="column" width="70%">
+                        <Text><Small>Patient Email</Small></Text>
+                        <TextInput width="100%" placeholder="name@gmail.com" required disabled={this.state.selectedBilling === "OHIP" || this.state.selectedBilling === "Insurance"}
+                            onChange={e => this.setState({ patientEmail: e.target.value })}
+                            value={this.state.patientEmail}                    
+                        />
+                    </Pane>
+                </Pane>                
+                <Pane
+                display="flex"
+                alignItems="flex-start"
+                justifyContent="center"
+                height="fit-content"
+                backgroundColor="#f9f9fb"
+                border="none"
+                flexDirection="row"
+                >
+                    <Pane display="flex" flexDirection="column" width="80%" marginRight={10}>
+                        <Text><Small>Line Item</Small></Text>
+                        <TextInput width="100%" placeholder="General Consultation" required 
+                            onChange={e => this.setState({ tempItem: e.target.value })}
+                            value={this.state.tempItem}
+                        />
+                    </Pane>
+                    <Pane display="flex" flexDirection="column" width="20%" marginRight={10}>
+                        <Text><Small>Price ($)</Small></Text>
+                        <TextInput width="100%" placeholder="70" required
+                            onChange={e => this.setState({ tempPrice: e.target.value })}
+                            value={this.state.tempPrice}                    
+                        />
+                    </Pane>
+                    <Pane display="flex" alignItems="flex-end" alignSelf="flex-end" height="100%">
+                        <IconButton 
+                        icon="add"
+                        appearance="minimal"
+                        size={40}
+                        onClick={() => {
+                            this.setState(state => {
+                                const items = state.items.concat({item: state.tempItem, price: state.tempPrice});
+                                const totalPrice = state.totalPrice += parseInt(state.tempPrice)
+                                return {
+                                items,
+                                tempItem: '',
+                                tempPrice: '',
+                                totalPrice
+                                };
+                            });                    
+                        }}>
+                            Add
+                        </IconButton>
+                    </Pane>
+                </Pane>
+                <Pane marginTop={20}>
+                {this.state.items ? this.state.items.map((item, index) => (
+                    <Card 
+                    marginBottom={10}
+                    backgroundColor="white"
+                    elevation={1}
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="space-between"
+                    alignItems="center"
+                    height={50}
+                    padding={10}
+                    >
+                        <Heading size={500}>{item.item}</Heading>
+                        <Heading size={400}>${item.price}</Heading>
+                    </Card>
+                )) : <div></div>}
+                </Pane>
+                <Pane alignSelf="flex-end" marginTop="auto" flexDirection="row" display="flex" width="100%" height={45} justifyContent="space-between" alignItems="center">
+                    <Heading size={400}>Subtotal: ${this.state.totalPrice} </Heading> 
+                    <Button intent="success" appearance="default" >Send Invoice</Button>
+                </Pane>
             </Pane>
         )
     }
@@ -52,7 +153,7 @@ export default class AppointmentSideSheet extends Component {
         super(props)
         this.state = {
             isShown: false,
-            tabs: ['Symptoms', 'Patient History', 'Invoicing'],
+            tabs: ['Symptoms', 'Invoicing'],
             selectedIndex: 0
         }
     }
@@ -96,7 +197,7 @@ export default class AppointmentSideSheet extends Component {
                     <Card
                         backgroundColor="white"
                         elevation={0}
-                        height={240}
+                        height="100%"
                     >
                         {this.state.tabs.map((tab, index) => (
                             <Pane
