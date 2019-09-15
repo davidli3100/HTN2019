@@ -138,7 +138,7 @@ def web_hooks(request):
         if isinstance(intend_date, str):
             intend_date = datetime.datetime.fromisoformat(intend_date)
             intend_date = DatetimeWithNanoseconds(intend_date.year, intend_date.month, intend_date.day,
-                                                  intend_date.hour, intend_date.minute, tzinfo=datetime.timezone.utc)
+                                                  intend_date.hour, intend_date.minute)
         temp_ref.document(session_id).update({
             "intend_date": intend_date
         })
@@ -150,7 +150,7 @@ def web_hooks(request):
         if isinstance(intend_date, str):
             intend_date = datetime.datetime.fromisoformat(intend_date)
             intend_date = DatetimeWithNanoseconds(intend_date.year, intend_date.month, intend_date.day,
-                                                  intend_date.hour, intend_date.minute, tzinfo=datetime.timezone.utc)
+                                                  intend_date.hour, intend_date.minute)
         if check_date_validity(intend_date):
             dialogflow_response = DialogflowResponse(
                 "The date you specified is available. Please indicate a time interval (30 minutes) to book.")
@@ -174,11 +174,11 @@ def web_hooks(request):
         if isinstance(start_time, str):
             start_time = datetime.datetime.fromisoformat(start_time)
             start_time = DatetimeWithNanoseconds(start_time.year, start_time.month, start_time.day,
-                                                 start_time.hour, start_time.minute, tzinfo=datetime.timezone.utc)
+                                                 start_time.hour, start_time.minute)
         if isinstance(end_time, str):
             end_time = datetime.datetime.fromisoformat(end_time)
             end_time = DatetimeWithNanoseconds(end_time.year, end_time.month, end_time.day,
-                                               end_time.hour, end_time.minute, tzinfo=datetime.timezone.utc)
+                                               end_time.hour, end_time.minute)
         temp_ref.document(session_id).update({
             "startTime": start_time,
             "endTime": end_time
@@ -186,22 +186,22 @@ def web_hooks(request):
         dialogflow_response = DialogflowResponse(
             "Your time is from {} to {}. Is that correct?".format(start_time, end_time))
 
-    elif dialogflow_request.get_intent_displayName() == "Create Appointment - Confirm - yes":
+    elif dialogflow_request.get_intent_displayName() == "Create Appointment - Time - yes":
         docu_dict = temp_ref.document(session_id).get().to_dict()
         start_time, end_time = docu_dict["startTime"], docu_dict["endTime"]
         if isinstance(start_time, str):
             start_time = datetime.datetime.fromisoformat(start_time)
             start_time = DatetimeWithNanoseconds(start_time.year, start_time.month, start_time.day,
-                                                 start_time.hour, start_time.minute, tzinfo=datetime.timezone.utc)
+                                                 start_time.hour, start_time.minute)
         if isinstance(end_time, str):
             end_time = datetime.datetime.fromisoformat(end_time)
             end_time = DatetimeWithNanoseconds(end_time.year, end_time.month, end_time.day,
-                                               end_time.hour, end_time.minute, tzinfo=datetime.timezone.utc)
+                                               end_time.hour, end_time.minute)
 
         res, msg = check_time_validity(start_time, end_time)
         if res:
             dialogflow_response = DialogflowResponse(
-                "The time you specified is available. Thanks for your appointment!")
+                "The appointment has been booked. Would you like to book another?")
             appointments_ref.document().set(docu_dict)
             patients_ref.document(docu_dict["phone_number"]).set({
                 "name": docu_dict["Patient"]
@@ -217,7 +217,7 @@ def web_hooks(request):
                 OutputContexts("pintox-app", session_id, "Create Appointment - Time", 200,
                                {
                                    "Patient": docu_dict["Patient"],
-                                   "intend_date": docu_dict["intend_date"],
+                                   "intend_date": str(docu_dict["intend_date"]),
                                    "phone_number": docu_dict["phone_number"],
                                    "Symptoms": docu_dict["Symptoms"]
                                }
