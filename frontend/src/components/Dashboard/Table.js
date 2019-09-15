@@ -8,7 +8,7 @@ export default class CustomTable extends Component {
         this.state = {
             appointments: this.props.appointments,
             sidesheetShown: false,
-            sideSheetAppointment: null
+            sideSheetAppointment: this.props.appointments[0]
         }
     }
 
@@ -19,11 +19,11 @@ export default class CustomTable extends Component {
     render() {
         return (
             <Table borderRadius={10}>
-                {/* <AppointmentSideSheet appointment={this.state.sideSheetAppointment} setState={this._handleSheetClose} isShown={this.state.sidesheetShown}/> */}
-                <Table.Head backgroundColor="#1070CA" borderRadius={4}>
+                <AppointmentSideSheet appointment={this.state.sideSheetAppointment} setState={this._handleSheetClose} isShown={this.state.sidesheetShown}/>
+                <Table.Head height={45} backgroundColor="#1e90ff" borderRadius={4}>
                     {/* <Table.SearchHeaderCell /> */}
                     <Table.TextHeaderCell color="#fff">
-                        Patient Name
+                        Patient
                     </Table.TextHeaderCell>
                     <Table.TextHeaderCell color="#fff">
                     Date

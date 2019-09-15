@@ -30,8 +30,9 @@ export default class Dashboard extends Component {
         //convert ms to date
         var d = new Date(ms);
         var ap;
-        var minutes = d.getMinutes();
-        if(d.getHours() > 11) {
+        var minutes;
+        d.getMinutes() < 10 ? minutes = '0' + d.getMinutes() : minutes = d.getMinutes()
+        if(d.getHours() > 12) {
             return d.getHours()-12 + ':'+ minutes + ' PM'
         } else if (d.getHours() === 12) {
             return d.getHours() + ':' + minutes + ' PM'
@@ -41,12 +42,25 @@ export default class Dashboard extends Component {
     }
 
     _parseDate(ms) {
+        var d = new Date(ms);
         var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sept", "Oct", "Nov", "Dec"]
+        var days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+        var month = months[d.getMonth()];
+        var day = days[d.getDay()];
+
+        return day + ', ' + month + ' ' + d.getDate()
     }
     
 
     _appointmentParser = (appointment) => {
-        
+        var tempAppointment = {
+            date: this._parseDate(appointment.startTime.seconds*1000),
+            time: this._parseTime(appointment.startTime.seconds*1000) + '-' + this._parseTime(appointment.endTime.seconds*1000),
+            Patient: appointment.Patient,
+            phoneNumber: appointment.phoneNumber,
+            Symptoms: appointment.Symptoms
+        }
+        return tempAppointment
     }
 
     componentDidMount() {
@@ -118,7 +132,7 @@ export default class Dashboard extends Component {
                         <Heading className="appointments-header" size={600}>Appointments</Heading>
                         <Button appearance="primary" onClick={() => {window.location = "/appointments"}} intent="success">View all</Button>  
                     </div>
-                    <Card elevation={2} backgroundColor="white" borderRadius={4} >
+                    <Card elevation={1} backgroundColor="white" borderRadius={4} >
                         <CustomTable appointments={this.state.allAppointments}/>
                     </Card>
                 </div>

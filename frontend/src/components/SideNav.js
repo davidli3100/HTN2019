@@ -53,7 +53,9 @@ export default class SideNav extends Component {
         <Fragment>
 
             <Menu>
-            <img src={logo} className="brand" size={600}/>
+            <div className="brand">
+                <img src={logo} className="brand-img" size={600}/>
+            </div>
                 <Menu.Group>
                     <Menu.Item icon="home" id="dashboard-link" className="sidenav__list-item" onSelect={() => {
                         this.setState({selected: 'dashboard'})

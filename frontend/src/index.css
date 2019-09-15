@@ -44,6 +44,10 @@ code {
   color: white !important
 }
 
+.brand-img {
+  height: 3vh
+}
+
 .nav {
   background-color: white !important;
   height: 100%;
@@ -133,18 +137,17 @@ code {
   height: 50px
 }
 
-#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_1snwwdt.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦b-btm_1px-solid-E4E7EB.📦bg_1eozcqw.📦dspl_flex.📦flx-srnk_0.📦pr_17px.📦h_32px.📦bg-clr_1070CA.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦box-szg_border-box.css-nil > div > span {
-  color: #fff !important;
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_17bru36.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦b-btm_1px-solid-E4E7EB.📦bg_1eozcqw.📦dspl_flex.📦flx-srnk_0.📦pr_17px.📦h_45px.📦bg-clr_1e90ff.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦box-szg_border-box.css-nil > div > span {  color: #fff !important;
+  font-size: 14.1px
 }
 
-#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_1snwwdt.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div:nth-child(2) {
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_17bru36.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div:nth-child(2) {
   padding-left: 0px
 }
 
-#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_1snwwdt.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div:nth-child(3) {
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_17bru36.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div:nth-child(3) {
   padding-left: 0px;
 }
 
-#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_1snwwdt.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div > span {
-  font-size: 14px !important
+#root > div > div > div > div > div:nth-child(2) > div > div.spaces-space.scrollable > div > div > div.appointments-overview-table > div.📦bs_17bru36.📦bblr_4px.📦bbrr_4px.📦btlr_4px.📦btrr_4px.📦bg-clr_white.📦box-szg_border-box.css-nil > div > div.📦flx_1.📦ovflw-y_auto.📦box-szg_border-box.css-nil > div > div > span {  font-size: 14px !important
 }
