@@ -1,6 +1,6 @@
 # HTN2019
 
-This is the repo for our hack the north 2019.
+This is the repo for our Hack the North 2019 Project
 
 Devpost link: https://devpost.com/software/drdash
 
